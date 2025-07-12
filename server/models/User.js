@@ -7,7 +7,7 @@ const userSchema=new mongoose.Schema({
     cartItems:{type:Object, default:{}},
 
 
-},{minimize:false})
+},{minimize:false,timestamps:true})
 
 const User=mongoose.models.user ||mongoose.model("user", userSchema)
 

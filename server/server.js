@@ -5,12 +5,15 @@ import connetDb from "./config/db.js";
 import  "dotenv/config";
 import userRouter from "./routes/userRoutes.js";
 import sellerRouter from "./routes/sellerRoutes.js";
+import connectCloudinary from "./config/cloudinary.js";
+import productRouter from "./routes/porductRoutes.js";
 
 
 const app=express();
 const port=process.env.PORT|| 4000;
 
 await connetDb();
+await connectCloudinary();
 
 
 //multiple allowed origin
@@ -26,6 +29,7 @@ app.use(cors({
 
 app.use("/api/user", userRouter);
 app.use("/api/seller", sellerRouter);
+app.use("/api/product", productRouter);
 
 app.listen(port, ()=>{
     console.log(`Server is running on http://localhost:${port}`)
