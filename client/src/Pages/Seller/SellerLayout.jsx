@@ -33,8 +33,8 @@ const SellerLayout = () => {
   };
 
   return (
-    <>
-      <div className="flex items-center justify-between px-4 md:px-8 border-b border-gray-300 py-3 bg-white ">
+    <div className="fixed top-0 w-full">
+      <div className="flex  items-center justify-between px-4 md:px-8 border-b border-gray-300 py-3 bg-white ">
         <Link to="/">
           <img
             src={assets.logo}
@@ -72,7 +72,7 @@ const SellerLayout = () => {
         </div>
         <Outlet/>
       </div>
-    </>
+    </div>
   );
 };
 export default SellerLayout;

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { useAppContext } from "../Context/AppContext";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [open, setOpen] = React.useState(false);
@@ -13,10 +14,21 @@ const Navbar = () => {
     searchQuery,
     SetSearchQuery,
     getCartCount,
+    axios,
   } = useAppContext();
   const logout = async () => {
-    setUser(null);
-    navigate("/");
+    try {
+      const { data } = await axios.get("/api/user/logout");
+      if (data.success) {
+        toast.success(data.message);
+        setUser(null);
+        navigate("/");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(data.message);
+    }
   };
   useEffect(() => {
     if (searchQuery.length > 0) {
@@ -50,7 +62,10 @@ const Navbar = () => {
           </div>
 
           <div
-            onClick={() => {navigate("/cart"); scrollTo(0,0)}}
+            onClick={() => {
+              navigate("/cart");
+              scrollTo(0, 0);
+            }}
             className="relative cursor-pointer"
           >
             <img src={assets.cart_icon} alt="cart" className="w-6 opacity-80" />
@@ -71,7 +86,10 @@ const Navbar = () => {
               <img src={assets.profile_icon} className="w-10" />
               <ul className="hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 w-30 rounded-md text-sm z-40">
                 <li
-                  onClick={() => {navigate("/my-orders"); scrollTo(0,0)}}
+                  onClick={() => {
+                    navigate("/my-orders");
+                    scrollTo(0, 0);
+                  }}
                   className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer"
                 >
                   My Orders
@@ -87,10 +105,12 @@ const Navbar = () => {
           )}
         </div>
 
-
         <div className="flex items-center gap-6 sm:hidden">
           <div
-            onClick={() => {navigate("/cart"); scrollTo(0,0)}}
+            onClick={() => {
+              navigate("/cart");
+              scrollTo(0, 0);
+            }}
             className="relative cursor-pointer"
           >
             <img src={assets.cart_icon} alt="cart" className="w-6 opacity-80" />
@@ -100,16 +120,13 @@ const Navbar = () => {
           </div>
 
           <button
-          onClick={() => (open ? setOpen(false) : setOpen(true))}
-          aria-label="Menu"
-          
-        >
-          {/* Menu Icon SVG */}
-          <img src={assets.menu_icon} />
-        </button>
+            onClick={() => (open ? setOpen(false) : setOpen(true))}
+            aria-label="Menu"
+          >
+            {/* Menu Icon SVG */}
+            <img src={assets.menu_icon} />
+          </button>
         </div>
-
-        
 
         {/* Mobile Menu */}
         {open && (

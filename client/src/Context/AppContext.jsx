@@ -11,7 +11,7 @@ export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
   const currency = import.meta.env.VITE_CURRENCY;
   const navigate = useNavigate();
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(false);
   const [isSeller, setIsSeller] = useState(false);
   const [showUserLogin, setShowUserLogin] = useState(false);
   const [products, SetProducts] = useState([]);
@@ -32,9 +32,34 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
+ //fetch seller status
+  const fetchUser = async () => {
+    try {
+      const { data } = await axios.get("/api/user/is-auth");
+      if (data.success) {
+        setUser(data.user);
+        SetcartItems(data.user.cartItems)
+        
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      setUser(null);
+    }
+  };
+
   //Fetch all Products
   const fetchProducts = async () => {
-    SetProducts(dummyProducts);
+    try {
+      const { data } = await axios.get("/api/product/list");
+      if (data.success) {
+        SetProducts(data.products);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(data.message);
+    }
   };
 
   //Add Product to cart
@@ -94,6 +119,7 @@ export const AppContextProvider = ({ children }) => {
   useEffect(() => {
     fetchSeller();
     fetchProducts();
+    fetchUser();
   }, []);
 
   const value = {
@@ -114,7 +140,7 @@ export const AppContextProvider = ({ children }) => {
     SetSearchQuery,
     getCartCount,
     getCartAmount,
-    axios,
+    axios,fetchProducts,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
