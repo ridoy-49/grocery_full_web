@@ -7,6 +7,9 @@ import userRouter from "./routes/userRoutes.js";
 import sellerRouter from "./routes/sellerRoutes.js";
 import connectCloudinary from "./config/cloudinary.js";
 import productRouter from "./routes/porductRoutes.js";
+import cartRouter from "./routes/cartRouters.js";
+import addressRouter from "./routes/addressRoutes.js";
+import orderRouter from "./routes/ordersRoutes.js";
 
 
 const app=express();
@@ -30,6 +33,9 @@ app.use(cors({
 app.use("/api/user", userRouter);
 app.use("/api/seller", sellerRouter);
 app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/address", addressRouter);
+app.use("/api/order", orderRouter);
 
 app.listen(port, ()=>{
     console.log(`Server is running on http://localhost:${port}`)

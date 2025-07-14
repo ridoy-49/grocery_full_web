@@ -15,9 +15,9 @@ export const sellerLogin = async (req, res) => {
                 sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
                 maxAge: 7 * 24 * 60 * 60 * 1000,
             });
-            return res.json({ succes: true, message: "Admin Logged In" })
+            return res.json({ success: true, message: "Admin Logged In" })
         } else {
-            return res.json({ succes: false, message: "invalid Credentials" })
+            return res.json({ success: false, message: "invalid Credentials" })
         }
     } catch (error) {
         console.log(error.message)
@@ -28,7 +28,7 @@ export const sellerLogin = async (req, res) => {
 
 export const isSellerAuth = async (req, res) => {
     try {
-        return res.json({ succes: true , message:"Your are logged in as Seller"})
+        return res.json({ success: true , message:"Your are logged in as Seller"})
     } catch (error) {
         console.log(error.message)
         res.json({ success: false, message: error.message });
