@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { assets } from "../assets/assets";
+import { useAppContext } from "../Context/AppContext";
+import toast from "react-hot-toast";
 
 const InputField = ({ type, placeholder, name, handleChange, address }) => {
   return (
@@ -16,6 +18,8 @@ const InputField = ({ type, placeholder, name, handleChange, address }) => {
 };
 
 const AddAddress = () => {
+  const { axios, navigate, user } = useAppContext();
+
   const [address, setAddres] = useState({
     firstName: "",
     lastName: "",
@@ -38,8 +42,26 @@ const AddAddress = () => {
   };
 
   const onSubmitHandler = async (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
+      const { data } =await axios.post("/api/address/add-address", { address });
+      if (data.success) {
+        toast.success(data.message);
+        navigate("/cart");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
+
+  useEffect(()=>{
+    if(!user){
+          navigate("/cart")
+          toast.error("Please Login First")
+    }
+  },[])
 
   return (
     <div className="mt-16 pb-16">
@@ -119,7 +141,10 @@ const AddAddress = () => {
               type="tel"
               placeholder="Phone"
             />
-            <button type="submit" className="w-full mt-6 bg-primary text-white py-3 hover:bg-primary-dull transition uppercase cursor-pointer">
+            <button
+              type="submit"
+              className="w-full mt-6 bg-primary text-white py-3 hover:bg-primary-dull transition uppercase cursor-pointer"
+            >
               Save Address
             </button>
           </form>

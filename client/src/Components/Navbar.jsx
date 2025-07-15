@@ -37,8 +37,8 @@ const Navbar = () => {
   }, [searchQuery]);
 
   return (
-    <div className="sticky top-0 bg-white z-10">
-      <nav className="flex items-center  justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
+    <div className="sticky top-0 bg-white z-10" >
+      <nav  className="flex items-center  justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
         <NavLink to="/" onClick={() => setOpen(false)}>
           <img className="h-9" src={assets.logo} alt="dummyLogoColored" />
         </NavLink>
@@ -149,6 +149,17 @@ const Navbar = () => {
             <NavLink to="/" onClick={() => setOpen(false)}>
               Contact
             </NavLink>
+            <div className="flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
+              <input
+                className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500"
+                type="text"
+                placeholder="Search products"
+                onChange={(e) => {
+                  SetSearchQuery(e.target.value);
+                }}
+              />
+              <img src={assets.search_icon} alt="search" className="w-4 h-4" />
+            </div>
             {!user ? (
               <button
                 onClick={() => {
